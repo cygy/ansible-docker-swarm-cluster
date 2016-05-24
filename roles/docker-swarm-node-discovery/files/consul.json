@@ -1,0 +1,15 @@
+{
+	"data_dir": "/data",
+	"ui_dir": "/ui",
+	"client_addr": "0.0.0.0",
+	"ports": {
+        "http": -1,
+		"https": 8500,
+        "dns": 53
+	},
+	"recursor": "8.8.8.8",
+	"disable_update_check": true,
+    "key_file": "/certs/key.pem",
+    "cert_file": "/certs/cert.pem",
+    "ca_file": "/certs/ca.pem"
+}

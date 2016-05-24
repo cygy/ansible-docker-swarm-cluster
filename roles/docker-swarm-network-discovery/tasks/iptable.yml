@@ -1,0 +1,9 @@
+---
+- name: allow only swarm hosts connections to swarm network discovery service
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ docker_swarm_network_discovery_port }}"
+    jump: ACCEPT
+    comment: "from ansible docker swarm network discovery role"

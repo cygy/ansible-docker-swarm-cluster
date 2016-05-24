@@ -1,0 +1,6 @@
+---
+docker_daemon_extra_args: --label type=node
+docker_swarm_node_hostname: "{{ docker_hostname }}"
+docker_swarm_node_daemon_port: "{{ docker_daemon_port }}"
+docker_swarm_node_consul_host: "{{ node_discovery_host }}:{{ node_discovery_port }}"
+docker_swarm_node_manager_ips: "{{ manager_ips }}"

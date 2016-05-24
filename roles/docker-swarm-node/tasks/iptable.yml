@@ -1,0 +1,34 @@
+---
+- name: allow connections to swarm network (tcp)
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    comment: "from ansible docker swarm node role"
+  with_items:
+  - 7946
+
+- name: allow connections to swarm network (udp)
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: udp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    comment: "from ansible docker swarm node role"
+  with_items:
+  - 7946
+  - 4789
+
+- name: allow connection to docker daemon only from the swarm manager
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ docker_swarm_node_daemon_port }}"
+    source: "{{ item }}"
+    jump: ACCEPT
+    comment: "from ansible docker swarm node role"
+  with_items: "{{ docker_swarm_node_manager_ips }}"

@@ -1,0 +1,11 @@
+---
+docker_hostname: localhost
+docker_ip: 127.0.0.1
+docker_daemon_port: 2375
+docker_daemon_extra_args: ""
+docker_apt_key_server: hkp://p80.pool.sks-keyservers.net:80
+docker_apt_key_id: 58118E89F3A912897C070ADBF76221572C52609D
+docker_network_discovery_host: 127.0.0.1
+docker_network_discovery_port: 8500
+docker_set_discovery_host: 0
+docker_daemon_port_is_accessible: 0

@@ -1,0 +1,40 @@
+---
+- include: swarm.yml
+
+  vars:
+    users_groups:
+      - name: group
+        gid: 1001
+
+    users:
+      - name: user
+        uid: 1001
+        primary_group: users
+        groups: admin
+        aliases: ""
+
+    paranoid_allow_ping: 1
+
+    paranoid_fail2ban:
+      default:
+        ignoreip: ""
+        bantime: 600
+        findtime: 600
+        maxretry: 3
+        destemail: alerts@tld.com
+        sender: fail2ban@tld.com
+        sendername: Fail2Ban - {{ hostname }}
+
+    docker_hostname: "{{ hostname }}"
+    docker_daemon_port: 2376
+    docker_daemon_port_is_accessible: 0
+
+    node_discovery_host: localhost
+    node_discovery_port: 8500
+
+    network_discovery_host: localhost
+    network_discovery_port: 8501
+
+    manager_port: 3376
+    manager_ips:
+    - 127.0.0.1

@@ -1,0 +1,3 @@
+---
+docker_daemon_extra_args: --label type=discovery-node
+docker_swarm_node_discovery_port: "{{ node_discovery_port }}"

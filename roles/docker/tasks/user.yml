@@ -1,0 +1,19 @@
+---
+- name: add the 'docker' group
+  group:
+    name: docker
+    gid: 999
+
+- name: add the 'docker' user
+  user:
+    name: docker
+    uid: 999
+    group: docker
+
+- name: create the data directory
+  file:
+    path: /docker/data
+    state: directory
+    owner: docker
+    group: docker
+    mode: 0755

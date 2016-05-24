@@ -1,0 +1,3 @@
+[Service]
+ExecStart=
+ExecStart=/usr/bin/docker daemon -H fd:// -H=0.0.0.0:{{ docker_daemon_port }} --cluster-store=consul://{{ docker_network_discovery_host }}:{{ docker_network_discovery_port }} --cluster-advertise={{ docker_ip }}:{{ docker_daemon_port }} --cluster-store-opt kv.cacertfile=/etc/docker/certs/ca.pem --cluster-store-opt kv.certfile=/etc/docker/certs/cert.pem --cluster-store-opt kv.keyfile=/etc/docker/certs/key.pem --tlsverify --tlscacert=/etc/docker/certs/ca.pem --tlscert=/etc/docker/certs/cert.pem --tlskey=/etc/docker/certs/key.pem {{ docker_daemon_extra_args }}

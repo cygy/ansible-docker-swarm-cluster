@@ -1,0 +1,6 @@
+---
+- name: add groups
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
+  with_items: "{{ users_groups }}"

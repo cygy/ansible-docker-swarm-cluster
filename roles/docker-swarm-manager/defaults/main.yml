@@ -1,0 +1,4 @@
+---
+docker_swarm_manager_hostname: localhost
+docker_swarm_manager_port: 3375
+docker_swarm_manager_consul_host: 127.0.0.1:8500

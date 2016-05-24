@@ -1,0 +1,24 @@
+# List your node(s): network discovery service (consul)
+[swarm-discovery-networks]
+
+# List your node(s): node discovery service (consul)
+[swarm-discovery-nodes]
+
+# List your node(s): swarm manager
+[swarm-managers]
+
+# List your node(s): swarm node
+[swarm-nodes]
+
+# Here are the groups.
+[swarm-discovery:children]
+swarm-discovery-networks
+swarm-discovery-nodes
+
+[swarm-cluster:children]
+swarm-managers
+swarm-nodes
+
+[swarm-all:children]
+swarm-discovery
+swarm-cluster

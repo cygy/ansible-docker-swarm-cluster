@@ -1,0 +1,9 @@
+---
+- name: allow connections to swarm manager service
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ docker_swarm_manager_port }}"
+    jump: ACCEPT
+    comment: "from ansible docker swarm manager role"

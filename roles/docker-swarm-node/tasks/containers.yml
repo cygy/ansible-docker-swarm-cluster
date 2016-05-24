@@ -1,0 +1,12 @@
+---
+- name: ensure that a container 'swarm-node' is running
+  docker:
+    name: swarm-node
+    image: swarm
+    command: join --discovery-opt kv.cacertfile=/certs/ca.pem --discovery-opt kv.certfile=/certs/cert.pem --discovery-opt kv.keyfile=/certs/key.pem --advertise {{ docker_swarm_node_hostname }}:{{ docker_swarm_node_daemon_port }} consul://{{ docker_swarm_node_consul_host }}/swarm
+    state: reloaded
+    pull: always
+    volumes:
+    - /etc/docker/certs:/certs:ro
+    restart_policy: on-failure
+    hostname: swarm-node

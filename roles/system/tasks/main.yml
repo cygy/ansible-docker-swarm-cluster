@@ -1,0 +1,3 @@
+---
+- include: update.yml
+- include: hostname.yml

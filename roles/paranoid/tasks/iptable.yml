@@ -1,0 +1,62 @@
+---
+- name: allow related and established connections
+  iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    comment: "from ansible paranoid role"
+
+- name: allow INPUT from loopback
+  iptables:
+    table: filter
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+    comment: "from ansible paranoid role"
+
+- name: allow ICMP (ping)
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: icmp
+    jump: ACCEPT
+    comment: "from ansible paranoid role"
+  when: paranoid_allow_ping==1
+
+- name: disallow ICMP (ping)
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: icmp
+    jump: ACCEPT
+    comment: "from ansible paranoid role"
+    state: absent
+  when: paranoid_allow_ping==0
+
+- name: allow connections to UDP ports
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: udp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    comment: "from ansible paranoid role"
+  with_items: "{{ paranoid_allowed_udp_ports }}"
+  when: paranoid_allowed_udp_ports
+
+- name: allow connections to TCP ports
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    comment: "from ansible paranoid role"
+  with_items: "{{ paranoid_allowed_tcp_ports }}"
+  when: paranoid_allowed_tcp_ports
+
+- name: disallow all other INPUT connections
+  command: iptables -P INPUT DROP
+
+- name: disallow all FORWARD connections by default
+  command: iptables -P FORWARD DROP

@@ -1,0 +1,34 @@
+---
+- name: allow SSH/HTTP/HTTPS daemon connections
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    comment: "from ansible"
+  with_items:
+  - 22
+  - 80
+  - 443
+
+- name: allow docker daemon connections
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ docker_daemon_port }}"
+    jump: ACCEPT
+    comment: "from ansible docker role"
+  when: docker_daemon_port_is_accessible==1
+
+- name: remove connections to docker daemon from docker role
+  iptables:
+    table: filter
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ docker_daemon_port }}"
+    jump: ACCEPT
+    state: absent
+    comment: "from ansible docker role"
+  when: docker_daemon_port_is_accessible==0

@@ -1,0 +1,37 @@
+---
+# default configuration of all nodes
+- hosts: all
+  roles:
+  - system
+
+# swarm network discovery service must be run first
+- hosts: swarm-discovery-networks
+  roles:
+  - docker
+  - docker-swarm-network-discovery
+
+# install docker on the other nodes
+- hosts: all
+  roles:
+  - docker
+
+# run consul on swarm discovery nodes
+- hosts: swarm-discovery-nodes
+  roles:
+  - docker-swarm-node-discovery
+
+# swarm managers
+- hosts: swarm-managers
+  roles:
+  - docker-swarm-manager
+
+# swarm nodes
+- hosts: swarm-nodes
+  roles:
+  - docker-swarm-node
+
+# default configuration of all nodes
+- hosts: all
+  roles:
+  - users
+  - paranoid

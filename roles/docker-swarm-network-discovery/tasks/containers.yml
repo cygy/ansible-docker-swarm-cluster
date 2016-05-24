@@ -1,0 +1,28 @@
+---
+- name: create the '/etc/consul' directory
+  file:
+    path: /etc/consul
+    state: directory
+    mode: 0755
+
+- name: copy the 'consul.json' file
+  copy:
+    src: files/consul.json
+    dest: /etc/consul/consul.json
+    mode: 0400
+
+- name: ensure that a container 'swarm-network-discovery' is running
+  docker:
+    name: swarm-network-discovery
+    image: progrium/consul
+    command: -server -bootstrap
+    state: reloaded
+    pull: always
+    ports:
+    - "{{ docker_swarm_network_discovery_port }}:8500"
+    volumes:
+    - /etc/consul/consul.json:/config/consul.json
+    - /etc/docker/certs/:/certs
+    #- /data/consul:/data
+    restart_policy: on-failure
+    hostname: swarm-network-discovery

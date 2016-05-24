@@ -1,0 +1,4 @@
+---
+docker_set_discovery_host: 1
+docker_network_discovery_host: "{{ network_discovery_host }}"
+docker_network_discovery_port: "{{ network_discovery_port }}"

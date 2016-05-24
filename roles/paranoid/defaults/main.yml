@@ -1,0 +1,4 @@
+---
+paranoid_allow_ping: 1
+paranoid_allowed_udp_ports:
+paranoid_allowed_tcp_ports:

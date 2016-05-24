@@ -1,0 +1,16 @@
+---
+- name: ensure that the latest 'fail2ban' package is installed
+  apt:
+    pkg: fail2ban
+    state: latest
+  notify: restart fail2ban
+  when: paranoid_fail2ban
+
+- name: copy fail2ban configuration file
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    force: yes
+    backup: yes
+  notify: restart fail2ban
+  when: paranoid_fail2ban

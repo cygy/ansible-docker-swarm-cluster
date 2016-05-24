@@ -1,0 +1,23 @@
+---
+- name: add users
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    group: "{{ item.primary_group }}"
+    groups: "{{ item.groups }}"
+  with_items: "{{ users }}"
+
+- name: set the ssh keys for the users
+  authorized_key:
+    user: "{{ item.name }}"
+    exclusive: yes
+    key: "{{ lookup('file', 'keys/users/{{ item.name }}.keys') }}"
+  with_items: "{{ users }}"
+
+- name: update the '.profile' file of the users
+  blockinfile:
+    dest: /home/{{ item.name }}/.profile
+    backup: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (user)"
+    block: "{{ item.aliases }}"
+  with_items: "{{ users }}"

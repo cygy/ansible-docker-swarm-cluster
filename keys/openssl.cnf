@@ -1,0 +1,28 @@
+[req]
+default_bits = 4096
+default_keyfile = privkey.pem
+distinguished_name = req_distinguished_name
+x509_extensions = v3_ca
+default_md = sha1
+string_mask = nombstr
+req_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+countryName = FR
+localityName = Lille
+organizationalUnitName = Ansible-Swarm
+
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = clientAuth,serverAuth
+subjectKeyIdentifier = hash
+
+[crl_ext]
+authorityKeyIdentifier=keyid:always
+
+[v3_ca]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+basicConstraints = CA:true

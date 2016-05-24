@@ -1,0 +1,11 @@
+---
+users_groups:
+  - name: group
+    gid: 1001
+
+users:
+  - name: user
+    uid: 1001
+    primary_group: group
+    groups: group
+    aliases: ""

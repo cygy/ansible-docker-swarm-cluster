@@ -1,0 +1,14 @@
+---
+- name: ensure that a container 'manager' is running
+  docker:
+    name: swarm-manager
+    image: swarm
+    command: manage --replication --discovery-opt kv.cacertfile=/certs/ca.pem --discovery-opt kv.certfile=/certs/cert.pem --discovery-opt kv.keyfile=/certs/key.pem --advertise {{ docker_swarm_manager_hostname }}:{{ docker_swarm_manager_port }} --tlsverify --tlscacert=/certs/ca.pem --tlscert=/certs/cert.pem --tlskey=/certs/key.pem consul://{{ docker_swarm_manager_consul_host }}/swarm
+    state: reloaded
+    pull: always
+    ports:
+    - "{{ docker_swarm_manager_port }}:2375"
+    volumes:
+    - /etc/docker/certs:/certs:ro
+    restart_policy: on-failure
+    hostname: swarm-manager

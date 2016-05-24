@@ -1,0 +1,59 @@
+---
+- name: purge older repositories
+  apt:
+    pkg: "{{ item }}"
+    state: absent
+    purge: yes
+  with_items:
+  - docker.io
+  - lxc-docker
+
+- name: install docker dependencies
+  apt:
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+  - apt-transport-https
+  - ca-certificates
+
+- name: add GPG key
+  apt_key:
+    keyserver: "{{ docker_apt_key_server }}"
+    id: "{{ docker_apt_key_id }}"
+
+- name: copy 'docker.list' file
+  copy:
+    src: files/docker.list
+    dest: /etc/apt/sources.list.d/docker.list
+    backup: yes
+
+- name: ensure that the latest 'docker-engine' package is installed
+  apt:
+    pkg: docker-engine
+    state: latest
+    update_cache: yes
+
+# Install the package dependencies for Ansible docker module.
+- name: ensure that the latest 'python' package is installed
+  apt:
+    pkg: python
+    state: latest
+
+- name: ensure that the latest 'python-setuptools' package is installed
+  apt:
+    pkg: python-setuptools
+    state: latest
+
+- name: ensure that the 'python-pip' package is not installed
+  apt:
+    pkg: python-pip
+    state: absent
+
+- name: ensure that the latest 'pip' package is installed
+  easy_install:
+    name: pip
+    state: latest
+
+- name: ensure that the latest 'docker-py' package is installed
+  pip:
+    name: docker-py==1.1.0

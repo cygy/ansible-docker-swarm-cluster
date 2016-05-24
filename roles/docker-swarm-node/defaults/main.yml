@@ -1,0 +1,6 @@
+---
+docker_swarm_node_hostname: localhost
+docker_swarm_node_daemon_port: 2375
+docker_swarm_node_consul_host: 127.0.0.1:8500
+docker_swarm_node_manager_ips:
+- 127.0.0.1

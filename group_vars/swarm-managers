@@ -1,0 +1,5 @@
+---
+docker_daemon_extra_args: --label type=manager
+docker_swarm_manager_hostname: "{{ docker_hostname }}"
+docker_swarm_manager_port: "{{ manager_port }}"
+docker_swarm_manager_consul_host: "{{ node_discovery_host }}:{{ node_discovery_port }}"

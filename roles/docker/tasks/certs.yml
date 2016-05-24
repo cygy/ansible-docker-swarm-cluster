@@ -1,0 +1,55 @@
+---
+- name: create the directory /etc/docker/certs
+  file:
+    path: /etc/docker/certs
+    state: directory
+    mode: 0755
+
+- name: copy the ca.pem file
+  copy:
+    src: keys/CA/ca.pem
+    dest: /etc/docker/certs/ca.pem
+    mode: 0400
+  notify: restart docker
+
+- name: copy the key.pem file
+  copy:
+    src: keys/hosts/{{ docker_hostname }}/key.pem
+    dest: /etc/docker/certs/key.pem
+    mode: 0400
+  notify: restart docker
+
+- name: copy the cert.pem file
+  copy:
+    src: keys/hosts/{{ docker_hostname }}/cert.pem
+    dest: /etc/docker/certs/cert.pem
+    mode: 0444
+  notify: restart docker
+
+- name: create the 'docker.service.d' directory
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    mode: 0755
+
+- name: enable the docker daemon (with swarm network discovery)
+  template:
+    src: docker-with-network-discovery.conf.j2
+    dest: /etc/systemd/system/docker.service.d/docker.conf
+    force: yes
+    backup: yes
+  notify:
+    - reload docker daemon
+    - restart docker
+  when: docker_set_discovery_host==1
+
+- name: enable the docker daemon (without swarm network discovery)
+  template:
+    src: docker-without-network-discovery.conf.j2
+    dest: /etc/systemd/system/docker.service.d/docker.conf
+    force: yes
+    backup: yes
+  notify:
+    - reload docker daemon
+    - restart docker
+  when: docker_set_discovery_host==0

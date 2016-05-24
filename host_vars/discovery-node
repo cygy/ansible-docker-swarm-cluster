@@ -1,0 +1,4 @@
+---
+hostname: [replace this with the hostname of your host]
+docker_ip: [replace this with the IP address of your host]
+docker_daemon_extra_args: --label type=discovery-node
