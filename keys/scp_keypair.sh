@@ -27,6 +27,7 @@ if ! [ -f "$DIR/cert.pem" ]; then
     exit 1
 fi
 
+ssh $USER@$HOST "mkdir -p $REMOTEDIR"
 scp -r $CADIR/ca.pem $USER@$HOST:$REMOTEDIR/ca.pem
 scp -r $DIR/key.pem $USER@$HOST:$REMOTEDIR/key.pem
 scp -r $DIR/cert.pem $USER@$HOST:$REMOTEDIR/cert.pem
