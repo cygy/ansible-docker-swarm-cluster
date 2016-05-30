@@ -1,6 +1,6 @@
 ---
 docker_hostname: localhost
-docker_ip: 127.0.0.1
+docker_ip: "{{ ansible_default_ipv4.address }}"
 docker_daemon_port: 2375
 docker_daemon_extra_args: ""
 docker_apt_key_server: hkp://p80.pool.sks-keyservers.net:80
