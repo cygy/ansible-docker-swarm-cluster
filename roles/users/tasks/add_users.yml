@@ -10,7 +10,6 @@
 - name: set the ssh keys for the users
   authorized_key:
     user: "{{ item.name }}"
-    exclusive: yes
     key: "{{ lookup('file', 'keys/users/{{ item.name }}.keys') }}"
   with_items: "{{ users }}"
 
